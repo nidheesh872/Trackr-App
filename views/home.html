@@ -1,0 +1,130 @@
+<!-- pre loader -->
+<div class="row preloader-row" ng-hide="isLoadedData">
+                <div class="preloader-wrapper big active">
+                    <div class="spinner-layer spinner-blue-only">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- pre loader -->
+<div class="row " ng-show="isLoadedData">
+        <div class=" col s12 l6">
+        <div class="row margin-bottom-zero">
+                <div class="col s12 margin-bottom-zero" >
+                    <div class="card-panel side-bar-card">
+                        <div class="row margin-bottom-zero">
+                            <div class="col s8">
+                                <div> Search</div>
+                                <i class="material-icons prefix">search</i>
+                                <input id="inputIconSearch" class="margin-bottom-zero" ng-model="searchField" type="text">
+                                <label for="inputIconSearch" class="active search-text"> </label>
+                            </div>
+    
+                            <div class="col s4">
+                                <div class="row">
+                                    <ul id="sort-by-dropdown" class="dropdown-content">
+                                        <li>
+                                            <a ng-click='sortBy==="price"?sortReverse=!sortReverse : sortBy="price"'><i ng-show='sortBy==="price"' class="material-icons right">check_circle</i>Price</a>
+                                        </li>
+                                        <li>
+                                            <a ng-click='sortBy==="weight"?sortReverse=!sortReverse : sortBy="weight"'><i ng-show='sortBy==="weight"' class="material-icons right">check_circle</i>Weight
+</a>
+                                        </li>
+                                        <li>
+                                            <a ng-click='sortBy==="quantity"?sortReverse=!sortReverse : sortBy="quantity"'><i ng-show='sortBy==="quantity"' class="material-icons right">check_circle</i>Quantity</a>
+                                        </li>
+                                    </ul>
+                                    <a class="btn dropdown-button waves-effect waves-light right margin-top-10 " data-activates="sort-by-dropdown" button-dropdown><span class="button-inside-text right">Sort By : {{sortBy}}</span><i class="material-icons">sort</i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+
+        <div class="col s12" ng-repeat="product in data.parcels | orderBy:sortBy:sortReverse | filter: searchField">
+
+
+            <div class="card-panel project-card margin-bottom-zero" ng-class="{{selectedProduct.name === product.name ? 'teal lighten-2':'white'}}">
+                <div class="card-content ">
+                    <div class="row margin-bottom-zero">
+                        <div class="col s1">
+                            <a ng-href="{{product.image}}" target="_blank"> <img class="product-img" ng-src="{{product.image}}" alt="{{product.name}}" /> </a>
+                        </div>
+                        <div class="col s10">
+                            <div class=" project-title ">
+                                {{product.name}}
+                            </div>
+                            <div class=" project-description truncate ">
+                                <div class="col s6">
+                                    Price : <i class="fa fa-inr"></i> {{product.price}} | Weight : {{product.weight}}
+                                </div>
+                                <div class="col s6">| Quantity : <i class="fa fa-inr"></i> {{product.quantity}} | Date : {{product.date | date:'dd/MM/yyyy'}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col s1">
+                            <a class="btn-floating  waves-effect waves-light blue right" title="Details" ng-click="selectProduct(product, $index)"><i class="material-icons right">{{selectedProduct.name === product.name ? 'keyboard_arrow_right':'keyboard_arrow_down'}}</i></a>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        <div class="col s12 center" ng-show="isLoadedData && (!data.parcels || !data.parcels.length)">
+            Data not found.
+        </div>
+
+
+        <!--<div class="col s12 pagination-container blue-text" ng-show="data && data.length">
+            <div class="col s2 left" title="Previous Page" ng-class="page<=1 ? 'disabled grey-text' : 'waves-effect teal-text'" ng-click="page==1 || loadPage(page-1)"><i class="material-icons left">chevron_left</i>Prev | </div>
+                  <div class=" col s8 center" >Page {{page}}</div>
+                <div class="col s2 right waves-effect" title="Next Page" ng-class="(page>=1000 || (page>=(data.total_count/50))) ? 'disabled grey-text' : 'waves-effect teal-text'" ng-click="page>=1000 || loadPage(page+1)">| Next<i class="material-icons right">chevron_right</i>
+                </div>
+        </div>-->
+
+    </div>
+    <div class=" col s12 l6">
+        <div class="card horizontal">
+            <div class="card-image">
+                <img ng-src="{{selectedProduct.image}}" alt="{{selectedProduct.name}}" />
+            </div>
+            <div class="card-stacked">
+                <h4 class="header project-title">{{selectedProduct.name}}</h4>
+                <div class="card-content">
+                    <div class="row">
+                        <div class="col s12"><i class="material-icons left">shopping_cart</i> Platform : {{selectedProduct.type}}</div>
+                        <div class="col s12"><i class="material-icons left">attach_money</i>Price : <i class="fa fa-inr"></i>{{selectedProduct.price}}</div>
+                        <div class="col s12"><i class="material-icons left">assignment</i>Weight : {{selectedProduct.weight}}</div>
+                        <div class="col s12"><i class="material-icons left">format_list_numbered</i>Quantity : {{selectedProduct.quantity}}</div>
+                        <div class="col s12"><i class="fa fa-calendar icon-style" aria-hidden="true"></i>Date : {{selectedProduct.date | date:'dd/MM/yyyy'}}</div>
+                        <div class="col s12"><i class="material-icons left">color_lens</i><span class="left">Color :</span>
+                            <div class="color-block"
+                                style="background: {{selectedProduct.color}}"></div>
+                        </div>
+                        <div class="col s12"><i class="material-icons left">phone</i>Phone : {{selectedProduct.phone}}</div>
+                    </div>
+                </div>
+               
+            </div>
+        </div>
+        <div class="card ">
+
+            <div class="card-content zero-padding">
+                <div id="map_canvas" style="height: 350px;width: 100%;"></div>
+                <div class="card-action">
+              Live Staus
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
